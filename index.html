@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página Web</title>
+  <style>
+    :root {
+      --bg: #0b0b1e;
+      --bg2: #14143a;
+      --card: #1b1b4a;
+      --text: #f2f2ff;
+      --muted: #a9a9d6;
+      --accent: #ff4d8d;
+      --accent2: #38e1ff;
+      --accent3: #ffd34d;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(circle at 20% 0%, var(--bg2), var(--bg) 60%) fixed;
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: var(--accent2); }
+
+    /* ===== Cabecera ===== */
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before, header::after {
+      content: "✦ ✧ ✦ ✧ ✦";
+      position: absolute; left: 0; right: 0;
+      color: var(--accent3); opacity: .35; letter-spacing: 18px;
+      font-size: 1.2rem; animation: twinkle 3s infinite alternate;
+    }
+    header::before { top: 14px; }
+    header::after { bottom: 8px; animation-delay: 1.2s; }
+    @keyframes twinkle { from { opacity: .15; } to { opacity: .6; } }
+    header h1 {
+      font-size: clamp(2.4rem, 8vw, 4.5rem);
+      background: linear-gradient(90deg, var(--accent), var(--accent3), var(--accent2));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 2px;
+    }
+    header p { color: var(--muted); font-size: 1.15rem; margin-top: 8px; }
+
+    /* ===== Menú de navegación ===== */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(11, 11, 30, .85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #2c2c6b;
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo { font-weight: 800; color: var(--accent3); padding: 14px 0; }
+    nav ul { list-style: none; display: flex; gap: 6px; }
+    nav ul a {
+      display: block; padding: 10px 16px; border-radius: 999px;
+      color: var(--text); text-decoration: none; transition: .2s;
+    }
+    nav ul a:hover { background: var(--accent); }
+    .burger {
+      display: none; background: none; border: 2px solid var(--accent2);
+      color: var(--accent2); font-size: 1.4rem; border-radius: 10px;
+      padding: 2px 12px; cursor: pointer;
+    }
+
+    /* ===== Cuerpo ===== */
+    main { max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; }
+    h2.section-title { text-align: center; font-size: 2rem; margin-bottom: 6px; }
+    .section-sub { text-align: center; color: var(--muted); margin-bottom: 30px; }
+
+    .grid {
+      display: grid; gap: 22px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .game-card {
+      background: var(--card);
+      border: 2px solid transparent;
+      border-radius: var(--radius);
+      padding: 28px 18px; text-align: center; cursor: pointer;
+      color: inherit; font: inherit;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .game-card:hover, .game-card:focus-visible {
+      transform: translateY(-8px) rotate(-1deg);
+      border-color: var(--accent2);
+      box-shadow: 0 10px 30px rgba(56, 225, 255, .25);
+      outline: none;
+    }
+    .game-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 10px 30px rgba(255, 77, 141, .35);
+    }
+    .game-card .emoji { font-size: 3.4rem; display: block; margin-bottom: 8px; }
+    .game-card .num { color: var(--accent3); font-weight: 700; font-size: .9rem; }
+    .game-card h3 { margin: 4px 0; }
+    .game-card small { color: var(--muted); }
+
+    /* ===== Detalle ===== */
+    #detalle {
+      margin-top: 40px; background: var(--card);
+      border-radius: var(--radius); padding: 28px;
+      border: 2px solid #2c2c6b;
+      animation: aparecer .4s ease;
+    }
+    #detalle.oculto { display: none; }
+    @keyframes aparecer { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    #detalle h2 { font-size: 2rem; color: var(--accent3); }
+    #detalle .desc { margin: 10px 0 18px; font-size: 1.05rem; }
+    #detalle h4 { margin: 18px 0 8px; color: var(--accent2); }
+    #detalle ol, #detalle ul.lista { padding-left: 22px; color: var(--muted); }
+    .galeria {
+      display: grid; gap: 14px; margin: 18px 0;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .galeria img, .placeholder {
+      width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+      border-radius: 12px; border: 2px solid #2c2c6b; background: #0f0f2e;
+    }
+    .galeria img.qr { object-fit: contain; background: #fff; padding: 10px; }
+    .placeholder {
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 10px; color: var(--muted);
+      font-size: .85rem; border-style: dashed;
+    }
+    .btn {
+      display: inline-block; margin: 8px 8px 0 0; padding: 12px 26px;
+      border-radius: 999px; font-weight: 700; text-decoration: none;
+      background: linear-gradient(90deg, var(--accent), #ff8a4d);
+      color: #fff; border: none; cursor: pointer; font-size: 1rem;
+      transition: transform .2s;
+    }
+    .btn:hover { transform: scale(1.06); }
+    .btn.sec { background: transparent; border: 2px solid var(--accent2); color: var(--accent2); }
+    iframe.scratch {
+      width: 100%; max-width: 485px; height: 402px; border: 0;
+      border-radius: 12px; margin-top: 14px; background: #000;
+    }
+
+    /* ===== Ta-Te-Ti ===== */
+    .ttt-wrap { text-align: center; margin-top: 16px; }
+    .ttt-board {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      width: min(100%, 320px); margin: 14px auto;
+    }
+    .ttt-cell {
+      aspect-ratio: 1; font-size: 3rem; font-weight: 800;
+      background: #0f0f2e; color: var(--text);
+      border: 2px solid #2c2c6b; border-radius: 12px; cursor: pointer;
+      transition: background .2s;
+    }
+    .ttt-cell:hover:not(:disabled) { background: #1f1f55; }
+    .ttt-cell.x { color: var(--accent); }
+    .ttt-cell.o { color: var(--accent2); }
+    .ttt-cell.win { background: #2a5a2a; }
+    #ttt-status { font-size: 1.2rem; font-weight: 700; min-height: 30px; }
+
+    /* ===== Pie ===== */
+    footer { text-align: center; color: var(--muted); padding: 24px; border-top: 1px solid #2c2c6b; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 720px) {
+      .burger { display: block; }
+      nav ul {
+        display: none; flex-direction: column; width: 100%;
+        padding-bottom: 12px;
+      }
+      nav ul.abierto { display: flex; }
+      .nav-inner { flex-wrap: wrap; }
+      header { padding-top: 44px; }
+      #detalle { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== CABECERA ===== -->
+  <header>
+    <h1>Página Web</h1>
+    <p>🎮 Elegí un juego y descubrí cómo se juega</p>
+  </header>
+
+  <!-- ===== MENÚ DE NAVEGACIÓN ===== -->
+  <nav>
+    <div class="nav-inner">
+      <span class="logo">🕹️ Mis Juegos</span>
+      <button class="burger" id="burger" aria-label="Abrir menú">☰</button>
+      <ul id="menu">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#juegos">Juegos</a></li>
+        <li><a href="#detalle" data-game="1">Cohete</a></li>
+        <li><a href="#detalle" data-game="2">QR</a></li>
+        <li><a href="#detalle" data-game="3">Frutas</a></li>
+        <li><a href="#detalle" data-game="4">Ta-Te-Ti</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== CUERPO DE CONTENIDO ===== -->
+  <main id="inicio">
+    <h2 class="section-title" id="juegos">Elegí tu juego</h2>
+    <p class="section-sub">Tocá una de las 4 tarjetas para ver imágenes, descripción y link.</p>
+
+    <section class="grid" id="grid"></section>
+
+    <section id="detalle" class="oculto" aria-live="polite"></section>
+  </main>
+
+  <footer>© 2026 Página Web — Hecho con HTML, CSS y JavaScript</footer>
+
+  <script>
+    // ================== DATOS DE LOS JUEGOS ==================
+    // Las imágenes van en la misma carpeta que index.html, con estos nombres.
+    const juegos = [
+      {
+        id: 1, emoji: "🚀", nombre: "Estrellas y Cohete", tag: "Juego de Scratch",
+        desc: "Un juego de Scratch donde un cohete debe esquivar distintos objetos que aparecen en el espacio. Movés el cohete con el mouse (el cursor): ¡no dejes que nada te toque!",
+        pasos: ["Abrí el juego con el botón de abajo.", "Mové el mouse para guiar el cohete.", "Esquivá todos los objetos y sobreviví lo máximo posible."],
+        imagenes: ["juego1-1.png", "juego1-2.png"],
+        link: "https://scratch.mit.edu/projects/1376107751",
+        embed: "https://scratch.mit.edu/projects/1376107751/embed"
+      },
+      {
+        id: 2, emoji: "📷", nombre: "Escanea el QR", tag: "App con código QR",
+        desc: "Escaneá el código QR con tu celular. Te va a pedir descargar una app y, una vez instalada, vas a poder sacar una sola foto y después borrarla.",
+        pasos: ["Escaneá el código QR con la cámara de tu celular.", "Descargá la app cuando te lo pida.", "Sacá una sola foto.", "Borrá la foto."],
+        imagenes: ["qr.png"],
+        qr: true,
+        link: null
+      },
+      {
+        id: 3, emoji: "🍉", nombre: "Corta Frutas", tag: "Juego de Scratch",
+        desc: "Mantené apretado el click y arrastrá el puntero sobre las frutas para cortarlas. Evitá las bombas y no dejes caer ninguna fruta, ¡si no, perdés!",
+        pasos: ["Mantené apretado el click.", "Arrastrá el puntero sobre las frutas para cortarlas.", "Evitá las bombas 💣.", "No dejes caer ninguna fruta o perdés."],
+        imagenes: ["juego3-1.png", "juego3-2.png"],
+        link: "https://scratch.mit.edu/projects/1367510473",
+        embed: "https://scratch.mit.edu/projects/1367510473/embed"
+      },
+      {
+        id: 4, emoji: "❌⭕", nombre: "Ta-Te-Ti", tag: "Clásico para 2 jugadores",
+        desc: "El clásico juego donde elegís jugar con X o con O. Fue programado en PSeInt y se juega en la consola, con el tablero y el turno del jugador en pantalla. Conseguí tres símbolos en línea (horizontal, vertical o diagonal) antes que tu rival. ¡Abajo también podés jugar una versión web!",
+        pasos: ["Elegí con qué símbolo empezar (X u O).", "Tocá una casilla vacía para marcarla.", "Ganás si alineás 3 símbolos iguales."],
+        imagenes: ["juego4-1.png", "juego4-2.png", "juego4-3.png"],
+        link: null,
+        tateti: true
+      }
+    ];
+
+    const grid = document.getElementById("grid");
+    const detalle = document.getElementById("detalle");
+
+    // ================== TARJETAS ==================
+    juegos.forEach(j => {
+      const b = document.createElement("button");
+      b.className = "game-card";
+      b.dataset.id = j.id;
+      b.innerHTML = `<span class="emoji">${j.emoji}</span>
+        <span class="num">JUEGO ${j.id}</span>
+        <h3>${j.nombre}</h3><small>${j.tag}</small>`;
+      b.addEventListener("click", () => mostrar(j.id));
+      grid.appendChild(b);
+    });
+
+    // ================== DETALLE ==================
+    function mostrar(id) {
+      const j = juegos.find(x => x.id === id);
+      document.querySelectorAll(".game-card").forEach(c =>
+        c.classList.toggle("active", Number(c.dataset.id) === id));
+
+      const imgs = j.imagenes.map((src, i) =>
+        `<img src="${src}" alt="${j.nombre} - imagen ${i + 1}" class="${j.qr ? "qr" : ""}"
+              onerror="this.outerHTML='<div class=&quot;placeholder&quot;>Falta la imagen:<br>${src}</div>'">`
+      ).join("");
+
+      let html = `
+        <h2>${j.emoji} ${j.nombre}</h2>
+        <p class="desc">${j.desc}</p>
+        <div class="galeria">${imgs}</div>
+        <h4>Cómo se juega</h4>
+        <ol>${j.pasos.map(p => `<li>${p}</li>`).join("")}</ol>`;
+
+      if (j.link) {
+        html += `<h4>Link</h4>
+          <a class="btn" href="${j.link}" target="_blank" rel="noopener">▶ Jugar en Scratch</a>
+          <a class="btn sec" href="${j.link}" target="_blank" rel="noopener">${j.link}</a>
+          <br><iframe class="scratch" src="${j.embed}" allowfullscreen loading="lazy" title="${j.nombre}"></iframe>`;
+      }
+      if (j.tateti) {
+        html += `<h4>Jugalo acá</h4><div class="ttt-wrap" id="ttt"></div>`;
+      }
+      detalle.innerHTML = html;
+      detalle.classList.remove("oculto");
+      if (j.tateti) iniciarTateti();
+      detalle.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // ================== TA-TE-TI ==================
+    function iniciarTateti() {
+      const cont = document.getElementById("ttt");
+      let tablero, turno, fin, empieza = "X";
+      const lineas = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+      cont.innerHTML = `
+        <div>
+          <button class="btn sec" data-s="X">Empieza X</button>
+          <button class="btn sec" data-s="O">Empieza O</button>
+        </div>
+        <div id="ttt-status"></div>
+        <div class="ttt-board" id="ttt-board"></div>
+        <button class="btn" id="ttt-reset">🔄 Reiniciar</button>`;
+      const status = cont.querySelector("#ttt-status");
+      const board = cont.querySelector("#ttt-board");
+
+      function reset() {
+        tablero = Array(9).fill("");
+        turno = empieza; fin = false;
+        board.innerHTML = "";
+        for (let i = 0; i < 9; i++) {
+          const c = document.createElement("button");
+          c.className = "ttt-cell";
+          c.setAttribute("aria-label", "Casilla " + (i + 1));
+          c.addEventListener("click", () => jugar(i, c));
+          board.appendChild(c);
+        }
+        status.textContent = "Turno de " + turno;
+      }
+
+      function jugar(i, celda) {
+        if (fin || tablero[i]) return;
+        tablero[i] = turno;
+        celda.textContent = turno;
+        celda.classList.add(turno.toLowerCase());
+        const ganadora = lineas.find(l => l.every(k => tablero[k] === turno));
+        if (ganadora) {
+          fin = true;
+          ganadora.forEach(k => board.children[k].classList.add("win"));
+          status.textContent = "🏆 ¡Ganó " + turno + "!";
+        } else if (tablero.every(Boolean)) {
+          fin = true;
+          status.textContent = "🤝 ¡Empate!";
+        } else {
+          turno = turno === "X" ? "O" : "X";
+          status.textContent = "Turno de " + turno;
+        }
+      }
+
+      cont.querySelectorAll("[data-s]").forEach(b =>
+        b.addEventListener("click", () => { empieza = b.dataset.s; reset(); }));
+      cont.querySelector("#ttt-reset").addEventListener("click", reset);
+      reset();
+    }
+
+    // ================== MENÚ ==================
+    const burger = document.getElementById("burger");
+    const menu = document.getElementById("menu");
+    burger.addEventListener("click", () => menu.classList.toggle("abierto"));
+    menu.querySelectorAll("a").forEach(a => a.addEventListener("click", e => {
+      menu.classList.remove("abierto");
+      if (a.dataset.game) { e.preventDefault(); mostrar(Number(a.dataset.game)); }
+    }));
+  </script>
+</body>
+</html>
